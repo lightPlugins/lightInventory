@@ -1,0 +1,50 @@
+gui-title: 'Example Custom GUI'
+rows: 6
+pattern:
+  - '000000000'
+  - '000000000'
+  - '000000000'
+  - '000000000'
+  - '000000000'
+  - '000000000'
+contents:
+  'a':
+    id: gui_item
+    args:
+      placeholders:
+        value: '%lighteconomy_eco_top_1_value%'
+        name: '%lighteconomy_eco_top_1_name%'
+      item: 'player_head 1 hide_attributes'
+      head-data: '#name#'
+      display-name: '<red>#1 <gray>#name#'
+      lore:
+        - '<gray>This is a lore #value#'
+      click-actions:
+        requirements:
+          '0':
+            id: permission
+            data: 'example.permission'
+            fail-actions:
+              - 'message;<red>You do not have permission to do this!'
+          '1':
+            id: math
+            data: '%vault_money% > 50'
+            fail-actions:
+              - 'message;<red>You do not have enough money!'
+        actions:
+          '0':
+            id: left_click
+            actions:
+              - 'message;<green>Congratulations! You have enough money and permission! - Left Click'
+          '1':
+            id: right_click
+            actions:
+              - 'message;<green>Congratulations! You have enough money and permission! - Right Click'
+          '2':
+            id: mouse_click
+            actions:
+              - 'message;<green>Congratulations! You have enough money and permission! - Alt Click'
+          '3':
+            id: shift_click
+            actions:
+              - 'message;<green>Congratulations! You have enough money and permission! - Shift Click'
