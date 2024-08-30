@@ -4,7 +4,7 @@ version: 1.0.0
 main: io.lightplugins.inventory.LightMaster
 api-version: 1.18
 depend: [Vault]
-softdepend: []
+softdepend: [HeadDatabase]
 loadbefore: []
 libraries: []
 #  - org.mariadb.jdbc:mariadb-java-client:2.7.4

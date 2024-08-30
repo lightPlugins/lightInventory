@@ -2,13 +2,18 @@ package io.lightplugins.inventory.inv.commands;
 
 import io.lightplugins.inventory.LightMaster;
 import io.lightplugins.inventory.inv.LightInv;
+import io.lightplugins.inventory.inv.constructor.InvConstructor;
+import io.lightplugins.inventory.inv.constructor.InvCreator;
 import io.lightplugins.inventory.util.NumberFormatter;
+import io.lightplugins.inventory.util.SkullUtil;
 import io.lightplugins.inventory.util.SubCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.block.Skull;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -19,17 +24,17 @@ import java.util.concurrent.ExecutionException;
 public class DummyCommand extends SubCommand {
     @Override
     public List<String> getName() {
-        return Arrays.asList("give", "add");
+        return Arrays.asList("open", "inv");
     }
 
     @Override
     public String getDescription() {
-        return "Gives the target player an amount of money.";
+        return "Open the specified Inventory";
     }
 
     @Override
     public String getSyntax() {
-        return "/eco [give,add] <player> <amount>";
+        return "/li [open,inv] <player> <inventory>";
     }
 
     @Override
@@ -51,7 +56,7 @@ public class DummyCommand extends SubCommand {
             }
 
             if(args.length == 1) {
-                return Arrays.asList("give", "add");
+                return Arrays.asList("open", "inv");
             }
 
             if (args.length == 2) {
@@ -63,7 +68,11 @@ public class DummyCommand extends SubCommand {
             }
 
             if(args.length == 3) {
-                return List.of("<amount>");
+                List<String> invNames = new ArrayList<>();
+                LightInv.instance.getInventoryManager().getInvConstructors().forEach((key, value) -> {
+                    invNames.add(key);
+                });
+                return invNames;
             }
 
             return null;
@@ -87,31 +96,16 @@ public class DummyCommand extends SubCommand {
             }
         }
 
-        BigDecimal bg = NumberFormatter.parseMoney(args[2]);
+        String invName = args[2];
 
-        if(bg == null) {
-            LightMaster.getMessageSender().sendPlayerMessage(LightInv.getMessageParams().noNumber(), player);
+        InvCreator invCreator = LightInv.instance.getInventoryManager().generateInventory(invName, player);
+
+        if(invCreator == null) {
+            LightMaster.getMessageSender().sendPlayerMessage("Inventory not found", player);
             return false;
         }
 
-        if(!NumberFormatter.isPositiveNumber(bg.doubleValue())) {
-            LightMaster.getMessageSender().sendPlayerMessage(LightInv.getMessageParams().onlyPositive(), player);
-            return false;
-        }
-
-        LightInv.economyVaultyService.depositPlayerAsync(target.getUniqueId(), bg)
-                .thenAcceptAsync(depositResult -> {
-                    if(depositResult.transactionSuccess()) {
-                        LightMaster.getMessageSender().sendPlayerMessage(LightInv.getMessageParams().depositSuccess()
-                                .replace("#player#", target.getName())
-                                .replace("#amount#", NumberFormatter.formatForMessages(bg)), player);
-                        return;
-                    }
-                    LightMaster.getMessageSender().sendPlayerMessage(LightInv.getMessageParams().depositFailed()
-                            .replace("#player#", target.getName())
-                            .replace("#reason#", depositResult.errorMessage())
-                            .replace("#amount#", NumberFormatter.formatForMessages(bg)), player);
-                });
+        invCreator.openInventory();
 
         return false;
     }

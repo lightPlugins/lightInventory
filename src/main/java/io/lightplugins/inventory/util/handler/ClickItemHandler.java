@@ -2,6 +2,7 @@ package io.lightplugins.inventory.util.handler;
 
 import io.lightplugins.inventory.LightMaster;
 import io.lightplugins.inventory.util.NumberFormatter;
+import io.lightplugins.inventory.util.SkullUtil;
 import lombok.Getter;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Material;
@@ -10,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.*;
 
@@ -59,7 +61,7 @@ public class ClickItemHandler {
     private void translatePlaceholders() {
         for(String key : placeholders.keySet()) {
             this.displayName = displayName.replace("#" + key + "#", placeholders.get(key));
-            headData = headData.replace("#" + key + "#", placeholders.get(key));
+            this.headData = headData.replace("#" + key + "#", placeholders.get(key));
         }
     }
 
@@ -96,10 +98,12 @@ public class ClickItemHandler {
 
         if(material != null) {
             itemStack.setType(material);
+        } else {
+            return new ItemStack(Material.STONE, 1);
+        }
 
-            if(material.equals(Material.PLAYER_HEAD)) {
-                playerHead = true;
-            }
+        if(material.equals(Material.PLAYER_HEAD)) {
+            itemStack = SkullUtil.getPlayerSkull(player);
         }
 
         ItemMeta itemMeta = itemStack.getItemMeta();
@@ -130,6 +134,7 @@ public class ClickItemHandler {
         }
 
         itemMeta.setLore(lore);
+
         itemStack.setItemMeta(itemMeta);
         return itemStack;
     }

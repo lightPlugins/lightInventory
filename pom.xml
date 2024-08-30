@@ -109,6 +109,13 @@
         </dependency>
 
         <dependency>
+            <groupId>com.arcaniax</groupId>
+            <artifactId>HeadDatabase-API</artifactId>
+            <version>1.3.2</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
             <groupId>net.kyori</groupId>
             <artifactId>adventure-api</artifactId>
             <version>4.17.0</version>
@@ -158,7 +165,7 @@
                                     <shadedPattern>io.lightplugins.inventory.util.database.hikari</shadedPattern>
                                 </relocation>
                             </relocations>
-                            <outputFile>./lightdummy-dev-server/plugins/${project.artifactId}-${project.version}-SNAPSHOT.jar</outputFile>
+                            <outputFile>C:/Users/philipp/Desktop/mc/${project.artifactId}-${project.version}-SNAPSHOT.jar</outputFile>
                             <filters>
                                 <filter>
                                     <artifact>*:*</artifact>

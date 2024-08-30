@@ -101,17 +101,6 @@ public class CommandManager implements CommandExecutor {
 
             if(command.getName().equals("inventory")) {
 
-                if(sender instanceof Player player) {
-                    LightInv.economyVaultyService.getBalanceAsync(player.getUniqueId())
-                            .thenAccept(balance -> {
-                                LightMaster.getMessageSender().sendPlayerMessage(LightInv.getMessageParams().moneyShow()
-                                        .replace("#amount#", NumberFormatter.formatForMessages(balance))
-                                        .replace("#currency#", "$"), player);
-
-                    });
-
-                    return false;
-                }
             }
 
         return false;

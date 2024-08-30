@@ -2,7 +2,6 @@ package io.lightplugins.inventory.util.database;
 
 import io.lightplugins.inventory.LightMaster;
 import io.lightplugins.inventory.util.database.model.DatabaseTypes;
-import me.lucko.helper.Schedulers;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -144,9 +143,5 @@ public abstract class SQLDatabase {
                 }
             }
         }
-    }
-
-    public void executeSqlAsync(String sql, Object... replacements) {
-        Schedulers.async().run(() -> this.executeSql(sql, replacements));
     }
 }

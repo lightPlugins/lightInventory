@@ -5,13 +5,14 @@ import com.github.stefvanschie.inventoryframework.gui.GuiItem;
 import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
 import com.github.stefvanschie.inventoryframework.pane.PatternPane;
 import com.github.stefvanschie.inventoryframework.pane.util.Pattern;
+import io.lightplugins.inventory.LightMaster;
+import io.lightplugins.inventory.util.DebugPrinting;
+import io.lightplugins.inventory.util.SkullUtil;
 import io.lightplugins.inventory.util.handler.ActionHandler;
 import io.lightplugins.inventory.util.handler.ClickItemHandler;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
-import org.bukkit.profile.PlayerProfile;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.util.Objects;
@@ -43,16 +44,9 @@ public class InvCreator {
 
             ClickItemHandler clickItemHandler = new ClickItemHandler(
                     Objects.requireNonNull(invConstructor.getClickItemHandlersSection().getConfigurationSection(
-                            "contents" + patternIdentifier)), player);
+                            patternIdentifier)), player);
 
             ItemStack itemStack = clickItemHandler.getGuiItem();
-
-            if (clickItemHandler.getGuiItem().getItemMeta() instanceof SkullMeta skullMeta) {
-                PlayerProfile playerProfile = Bukkit.createPlayerProfile(clickItemHandler.getHeadData());
-                skullMeta.setOwnerProfile(playerProfile);
-                clickItemHandler.getGuiItem().setItemMeta(skullMeta);
-                itemStack.setItemMeta(skullMeta);
-            }
 
             patternPane.bindItem(patternIdentifier.charAt(0), new GuiItem(itemStack, inventoryClickEvent -> {
                 ActionHandler actionHandler = new ActionHandler(clickItemHandler.getActions(), player, inventoryClickEvent.getClick());

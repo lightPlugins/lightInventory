@@ -2,12 +2,13 @@ package io.lightplugins.inventory.inv;
 
 import io.lightplugins.inventory.LightMaster;
 import io.lightplugins.inventory.inv.commands.DummyCommand;
+import io.lightplugins.inventory.inv.commands.ReloadCommand;
 import io.lightplugins.inventory.inv.config.MessageParams;
 import io.lightplugins.inventory.inv.config.SettingParams;
-import io.lightplugins.inventory.inv.constructor.InvConstructor;
 import io.lightplugins.inventory.inv.manager.InventoryManager;
 import io.lightplugins.inventory.inv.manager.QueryManager;
 import io.lightplugins.inventory.util.SubCommand;
+import io.lightplugins.inventory.util.dependencies.HeadDatabase;
 import io.lightplugins.inventory.util.interfaces.LightModule;
 import io.lightplugins.inventory.util.manager.CommandManager;
 import io.lightplugins.inventory.util.manager.FileManager;
@@ -53,6 +54,10 @@ public class LightInv implements LightModule {
     private FileManager language;
     @Getter
     private InventoryManager inventoryManager;
+
+    @Getter
+    @Setter
+    public boolean headDatabaseReady = false;
 
     @Override
     public void enable() {
@@ -126,6 +131,9 @@ public class LightInv implements LightModule {
         this.settings = new FileManager(
                 LightMaster.instance, moduleName + "/settings.yml", true);
 
+        // creating default example inventory file
+        new FileManager(LightMaster.instance, moduleName + "/inventories/_example.yml", true);
+
         // check for all custom inventory files on server startup
         try {
             this.multiFileManager = new MultiFileManager(
@@ -147,14 +155,20 @@ public class LightInv implements LightModule {
     }
 
     private void initSubCommands() {
-        PluginCommand ecoCommand = Bukkit.getPluginCommand("inventory");
+        PluginCommand ecoCommand = Bukkit.getPluginCommand("li");
         subCommands.add(new DummyCommand());
+        subCommands.add(new ReloadCommand());
         new CommandManager(ecoCommand, subCommands);
 
     }
 
     public void registerEvents() {
-        //Bukkit.getPluginManager().registerEvents(new CreatePlayerOnJoin(), Light.instance);
+        // check if HeadDatabase is installed on the server
+        if(Bukkit.getPluginManager().getPlugin("HeadDatabase") != null) {
+            Bukkit.getPluginManager().registerEvents(new HeadDatabase(), LightMaster.instance);
+        } else {
+            LightMaster.getDebugPrinting().print("HeadDatabase not found. Disable HeadDB features.");
+        }
     }
 
     // lightInventory currently does not need a database

@@ -7,6 +7,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.util.HashMap;
@@ -51,14 +52,12 @@ public class InventoryManager {
         }
     }
 
-    // generate and open the inventor for the player
-    // needs a player object, because PlaceholderAPI is used.
-    private void generateInventory(String guiName, Player player) {
+    // generate and open the inventory for the player
+    // needs a player object, because PlaceholderAPI is in used.
+    public InvCreator generateInventory(String guiName, Player player) {
 
         InvConstructor invConstructor = getInvConstructors().get(guiName);
-        InvCreator invCreator = new InvCreator(invConstructor, player);
-        invCreator.openInventory();
+        return new InvCreator(invConstructor, player);
 
     }
-
 }
