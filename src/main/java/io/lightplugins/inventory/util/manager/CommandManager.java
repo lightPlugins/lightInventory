@@ -1,9 +1,8 @@
 package io.lightplugins.inventory.util.manager;
 
 import io.lightplugins.inventory.LightMaster;
-import io.lightplugins.inventory.inv.LightInv;
+import io.lightplugins.inventory.module.LightInv;
 import io.lightplugins.inventory.util.CompositeTabCompleter;
-import io.lightplugins.inventory.util.NumberFormatter;
 import io.lightplugins.inventory.util.SubCommand;
 import org.bukkit.command.*;
 import org.bukkit.entity.Player;

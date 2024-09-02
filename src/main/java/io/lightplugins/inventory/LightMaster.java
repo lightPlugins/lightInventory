@@ -1,7 +1,7 @@
 package io.lightplugins.inventory;
 
 import com.zaxxer.hikari.HikariDataSource;
-import io.lightplugins.inventory.inv.LightInv;
+import io.lightplugins.inventory.module.LightInv;
 import io.lightplugins.inventory.util.ColorTranslation;
 import io.lightplugins.inventory.util.DebugPrinting;
 import io.lightplugins.inventory.util.MessageSender;

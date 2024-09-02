@@ -1,6 +1,6 @@
 package io.lightplugins.inventory.util.dependencies;
 
-import io.lightplugins.inventory.inv.LightInv;
+import io.lightplugins.inventory.module.LightInv;
 import me.arcaniax.hdb.api.DatabaseLoadEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

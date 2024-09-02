@@ -1,6 +1,6 @@
-package io.lightplugins.inventory.inv.config;
+package io.lightplugins.inventory.module.config;
 
-import io.lightplugins.inventory.inv.LightInv;
+import io.lightplugins.inventory.module.LightInv;
 import io.lightplugins.inventory.util.NumberFormatter;
 
 import java.math.BigDecimal;

@@ -1,7 +1,7 @@
-package io.lightplugins.inventory.inv.manager;
+package io.lightplugins.inventory.module.manager;
 
-import io.lightplugins.inventory.inv.constructor.InvConstructor;
-import io.lightplugins.inventory.inv.constructor.InvCreator;
+import io.lightplugins.inventory.module.constructor.InvConstructor;
+import io.lightplugins.inventory.module.constructor.InvCreator;
 import lombok.Getter;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;

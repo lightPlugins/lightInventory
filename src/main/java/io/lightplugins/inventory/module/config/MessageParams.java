@@ -1,4 +1,4 @@
-package io.lightplugins.inventory.inv.config;
+package io.lightplugins.inventory.module.config;
 
 import io.lightplugins.inventory.util.manager.FileManager;
 import org.bukkit.configuration.file.FileConfiguration;

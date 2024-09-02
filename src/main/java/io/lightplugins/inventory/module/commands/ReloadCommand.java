@@ -1,6 +1,6 @@
-package io.lightplugins.inventory.inv.commands;
+package io.lightplugins.inventory.module.commands;
 
-import io.lightplugins.inventory.inv.LightInv;
+import io.lightplugins.inventory.module.LightInv;
 import io.lightplugins.inventory.util.SubCommand;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.command.TabCompleter;

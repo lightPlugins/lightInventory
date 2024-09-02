@@ -1,4 +1,4 @@
-package io.lightplugins.inventory.inv.api.abstracts;
+package io.lightplugins.inventory.module.api.abstracts;
 
 public abstract class CustomInventory {
 

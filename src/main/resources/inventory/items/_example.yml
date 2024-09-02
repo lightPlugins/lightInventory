@@ -1,0 +1,10 @@
+id: gui_item
+args:
+  placeholders:
+    value: '%lighteconomy_eco_top_1_value%'
+    name: '%lighteconomy_eco_top_1_name%'
+  item: 'player_head 1 hide_attributes'
+  head-data: '#name#'
+  display-name: '<red>#1 <gray>#name#'
+  lore:
+    - '<gray>This is a lore #value#'

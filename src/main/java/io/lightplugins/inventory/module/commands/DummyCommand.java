@@ -1,11 +1,9 @@
-package io.lightplugins.inventory.inv.commands;
+package io.lightplugins.inventory.module.commands;
 
 import io.lightplugins.inventory.LightMaster;
-import io.lightplugins.inventory.inv.LightInv;
-import io.lightplugins.inventory.inv.constructor.InvConstructor;
-import io.lightplugins.inventory.inv.constructor.InvCreator;
+import io.lightplugins.inventory.module.LightInv;
+import io.lightplugins.inventory.module.constructor.InvCreator;
 import io.lightplugins.inventory.util.NumberFormatter;
-import io.lightplugins.inventory.util.SkullUtil;
 import io.lightplugins.inventory.util.SubCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -15,7 +13,6 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

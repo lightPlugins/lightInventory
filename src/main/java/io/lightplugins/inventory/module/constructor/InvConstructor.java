@@ -1,4 +1,4 @@
-package io.lightplugins.inventory.inv.constructor;
+package io.lightplugins.inventory.module.constructor;
 
 import lombok.Getter;
 import lombok.Setter;

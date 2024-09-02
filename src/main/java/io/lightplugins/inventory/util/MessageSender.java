@@ -1,6 +1,6 @@
 package io.lightplugins.inventory.util;
 import io.lightplugins.inventory.LightMaster;
-import io.lightplugins.inventory.inv.LightInv;
+import io.lightplugins.inventory.module.LightInv;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;

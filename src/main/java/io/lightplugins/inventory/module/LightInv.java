@@ -1,12 +1,11 @@
-package io.lightplugins.inventory.inv;
+package io.lightplugins.inventory.module;
 
 import io.lightplugins.inventory.LightMaster;
-import io.lightplugins.inventory.inv.commands.DummyCommand;
-import io.lightplugins.inventory.inv.commands.ReloadCommand;
-import io.lightplugins.inventory.inv.config.MessageParams;
-import io.lightplugins.inventory.inv.config.SettingParams;
-import io.lightplugins.inventory.inv.manager.InventoryManager;
-import io.lightplugins.inventory.inv.manager.QueryManager;
+import io.lightplugins.inventory.module.commands.DummyCommand;
+import io.lightplugins.inventory.module.commands.ReloadCommand;
+import io.lightplugins.inventory.module.config.MessageParams;
+import io.lightplugins.inventory.module.config.SettingParams;
+import io.lightplugins.inventory.module.manager.InventoryManager;
 import io.lightplugins.inventory.util.SubCommand;
 import io.lightplugins.inventory.util.dependencies.HeadDatabase;
 import io.lightplugins.inventory.util.interfaces.LightModule;
@@ -38,8 +37,6 @@ public class LightInv implements LightModule {
     public final static String tablePrefix = "lighteco_";
     private final ArrayList<SubCommand> subCommands = new ArrayList<>();
 
-    @Getter
-    private QueryManager queryManager;
     @Getter
     private SettingParams settingParams;
     @Getter
@@ -169,12 +166,5 @@ public class LightInv implements LightModule {
         } else {
             LightMaster.getDebugPrinting().print("HeadDatabase not found. Disable HeadDB features.");
         }
-    }
-
-    // lightInventory currently does not need a database
-    private boolean initDatabase() {
-        this.queryManager = new QueryManager(LightMaster.instance.getConnection());
-        queryManager.createEcoTable();
-        return true;
     }
 }

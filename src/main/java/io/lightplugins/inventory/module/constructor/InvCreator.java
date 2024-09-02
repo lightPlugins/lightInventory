@@ -1,13 +1,10 @@
-package io.lightplugins.inventory.inv.constructor;
+package io.lightplugins.inventory.module.constructor;
 
 
 import com.github.stefvanschie.inventoryframework.gui.GuiItem;
 import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
 import com.github.stefvanschie.inventoryframework.pane.PatternPane;
 import com.github.stefvanschie.inventoryframework.pane.util.Pattern;
-import io.lightplugins.inventory.LightMaster;
-import io.lightplugins.inventory.util.DebugPrinting;
-import io.lightplugins.inventory.util.SkullUtil;
 import io.lightplugins.inventory.util.handler.ActionHandler;
 import io.lightplugins.inventory.util.handler.ClickItemHandler;
 import org.bukkit.entity.Player;
