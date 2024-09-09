@@ -54,7 +54,7 @@ public class ClickItemHandler {
     private void loadRequirements() {
 
         if(actions == null) {
-            LightMaster.getDebugPrinting().print("No click actions found");
+            LightMaster.getDebugPrinting().print("No click actions configuration section found");
             return;
         }
 
