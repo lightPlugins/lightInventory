@@ -29,7 +29,7 @@ public class LightMaster extends JavaPlugin {
 
 
     public static LightMaster instance;
-    private LightInv lightEco;
+    private LightInv lightInv;
 
     public final static String consolePrefix = "§r[light§eInventory§r] §r";
 
@@ -95,7 +95,7 @@ public class LightMaster extends JavaPlugin {
     }
 
     private void loadModules() {
-        this.loadModule(lightEco, true);
+        this.loadModule(lightInv, true);
     }
 
     private void loadModule(LightModule lightModule, boolean enable) {
@@ -118,8 +118,8 @@ public class LightMaster extends JavaPlugin {
     }
 
     private void initModules() {
-        this.lightEco = new LightInv();
-        this.modules.put(this.lightEco.getName(), this.lightEco);
+        this.lightInv = new LightInv();
+        this.modules.put(this.lightInv.getName(), this.lightInv);
     }
 
     public FileManager selectLanguage(String languageName, String moduleName) {
