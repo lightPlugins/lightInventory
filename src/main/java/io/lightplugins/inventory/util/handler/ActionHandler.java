@@ -1,53 +1,143 @@
 package io.lightplugins.inventory.util.handler;
 
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.ClickType;
 
-import java.util.List;
+import io.lightplugins.inventory.LightMaster;
+import io.lightplugins.inventory.module.LightInv;
+import io.lightplugins.inventory.module.constructor.InvCreator;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 
 public class ActionHandler {
 
-    private final ConfigurationSection actions;
-    private final Player player;
-    private final ClickType clickType;
+    public Player player;
+    public String actionData;
+    public String[] actionDataArray;
 
-    public ActionHandler(ConfigurationSection actions, Player player, ClickType clickType) {
-        this.actions = actions;
+    public ActionHandler(Player player, String actionData) {
         this.player = player;
-        this.clickType = clickType;
+        this.actionData = actionData;
+        this.actionDataArray = actionData.split(";");
     }
 
-    public void performActions() {
-        for (String key : actions.getKeys(false)) {
+    public void handleAction() {
 
+        if(actionDataArray == null) {
+            LightMaster.getDebugPrinting().print("Config error: No action data found.");
+            return;
+        }
+
+        switch (actionDataArray[0]) {
+            case "message":
+                sendMessage();
+                break;
+            case "title":
+                sendTitle();
+                break;
+            case "sound":
+                sendSound();
+                break;
+            case "inventory":
+                openInventory();
+                break;
+            case "player-command":
+                executePlayerCommand();
+                break;
+            case "console-command":
+                executeConsoleCommand();
+                break;
+            case "close-inventory":
+                closeInventory();
+                break;
         }
     }
 
-    private void executeFailActions(List<String> failActions) {
-        for (String failAction : failActions) {
-            String[] parts = failAction.split(";", 2);
-            if (parts.length == 2) {
-                switch (parts[0]) {
-                    case "message":
-                        player.sendMessage(parts[1]);
-                        break;
-                    case "command":
-                        player.performCommand(parts[1]);
-                        break;
-                    case "close_inventory":
-                        player.closeInventory();
-                        break;
-                    // Add more fail action types here
-                    default:
-                        throw new IllegalArgumentException("Unknown fail action type: " + parts[0]);
-                }
+    private void sendMessage() {
+
+        if(actionDataArray[1] == null) {
+            player.sendMessage("Config error: No message to send.");
+            return;
+        }
+
+        LightMaster.getMessageSender().sendPlayerMessage(actionDataArray[1], player);
+    }
+
+    private void sendTitle() {
+
+        if(actionDataArray.length < 5) {
+            player.sendMessage("Config error: Not enough arguments for title.");
+            return;
+        }
+
+        LightMaster.getMessageSender().sendPlayerTitle(
+                actionDataArray[1],
+                actionDataArray[2],
+                Integer.parseInt(actionDataArray[3]),
+                Integer.parseInt(actionDataArray[4]),
+                Integer.parseInt(actionDataArray[5]),
+                player);
+
+    }
+
+    private void sendSound() {
+        if(actionDataArray.length < 4) {
+            player.sendMessage("Config error: Not enough arguments for sound.");
+            return;
+        }
+
+        LightMaster.getMessageSender().sendSound(
+                actionDataArray[1],
+                Float.parseFloat(actionDataArray[2]),
+                Float.parseFloat(actionDataArray[3]),
+                player);
+    }
+
+    private void openInventory() {
+        if(actionDataArray.length < 2) {
+            player.sendMessage("Config error: Not enough arguments for inventory.");
+            return;
+        }
+        InvCreator invCreator = LightInv.instance.getInventoryManager().generateInventory(actionDataArray[1], player);
+
+        if(invCreator == null) {
+            player.sendMessage("Config error: Inventory name not found.");
+            return;
+        }
+
+        invCreator.openInventory();
+    }
+
+    private void executePlayerCommand() {
+        if(actionDataArray.length < 2) {
+            player.sendMessage("Config error: Not enough arguments for player command.");
+            return;
+        }
+
+        Bukkit.getScheduler().runTask(LightMaster.instance, () -> {
+            if(player.performCommand(actionDataArray[1])) {
+                player.sendMessage(ChatColor.GREEN + "Player Command executed successfully.");
+            } else {
+                player.sendMessage(ChatColor.RED + "Player Command failed to execute.");
             }
-        }
+        });
     }
 
-    private boolean evaluateMathExpression(String expression) {
-        // Implement your math expression evaluation logic here
-        return true; // Placeholder return value
+    private void executeConsoleCommand() {
+        if(actionDataArray.length < 2) {
+            player.sendMessage("Config error: Not enough arguments for console command.");
+            return;
+        }
+
+        Bukkit.getScheduler().runTask(LightMaster.instance, () -> {
+            if (Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), actionDataArray[1])) {
+                player.sendMessage(ChatColor.GREEN + "Console Command executed successfully.");
+            } else {
+                player.sendMessage(ChatColor.RED + "Console Command failed to execute.");
+            }
+        });
+    }
+
+    private void closeInventory() {
+        player.closeInventory();
     }
 }

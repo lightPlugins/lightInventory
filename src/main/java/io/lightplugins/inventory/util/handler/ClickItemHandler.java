@@ -11,7 +11,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.*;
 
@@ -32,9 +31,13 @@ public class ClickItemHandler {
     private boolean playerHead = false;
     @Getter
     private String headData;
-
+    @Getter
+    private HashMap<RequirementHandler, List<ActionHandler>> requirementHandler;
+    @Getter
+    private List<ActionHandler> successActions;
 
     public ClickItemHandler(ConfigurationSection section, Player player) {
+
         this.GUI_ITEM_ARGS = section.getConfigurationSection("args");
         this.actions = section.getConfigurationSection("args.click-actions");
         this.PLACEHOLDERS = section.getConfigurationSection("args.placeholders");
@@ -44,7 +47,35 @@ public class ClickItemHandler {
         guiItemContent();
         translatePlaceholders();
         translateLore();
+        loadRequirements();
 
+    }
+
+    private void loadRequirements() {
+
+        if(actions == null) {
+            LightMaster.getDebugPrinting().print("No click actions configuration section found");
+            return;
+        }
+
+        for(String key : actions.getKeys(true)) {
+            if(key.contains("requirement")) {
+
+                List<ActionHandler> failActions = new ArrayList<>();
+
+                for(String failAction : actions.getStringList(key + ".fail-actions")) {
+                    failActions.add(new ActionHandler(player, failAction));
+                }
+
+                String requirementType = actions.getString(key + ".type");
+                String requirementData = actions.getString(key + ".data");
+
+                RequirementHandler requirementHandler = new RequirementHandler(
+                        requirementType, requirementData, failActions);
+
+                this.requirementHandler.put(requirementHandler, failActions);
+            }
+        }
     }
 
     private void applyPlaceholders() {
@@ -131,11 +162,33 @@ public class ClickItemHandler {
             if(split.equalsIgnoreCase("hide_attributes")) {
                 itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
             }
+
+            if(split.equalsIgnoreCase("hide_unbreakable")) {
+                itemMeta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+            }
+
+            if(split.equalsIgnoreCase("hide_destroys")) {
+                itemMeta.addItemFlags(ItemFlag.HIDE_DESTROYS);
+            }
+
+            if(split.equalsIgnoreCase("hide_dye")) {
+                itemMeta.addItemFlags(ItemFlag.HIDE_DYE);
+            }
+
+            if(split.equalsIgnoreCase("hide_placed_on")) {
+                itemMeta.addItemFlags(ItemFlag.HIDE_PLACED_ON);
+            }
         }
 
         itemMeta.setLore(lore);
 
         itemStack.setItemMeta(itemMeta);
         return itemStack;
+    }
+
+    private void readActions() {
+        for(String key : actions.getKeys(true)) {
+
+        }
     }
 }
